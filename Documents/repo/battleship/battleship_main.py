@@ -44,6 +44,6 @@ def game_begin(board_in):
 
 create_board(board)
 game_begin(board)
-
+print('banana')
 
 
