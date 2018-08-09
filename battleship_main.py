@@ -3,9 +3,19 @@ from random import randint
 board = []
 
 
+class Ship(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return "(%d, %d)" % (self.x, self.y)
+
+
 def create_board(board_in):
-    for i in range(5):
-        board_in.append(["0"] * 5)
+    size = int(input("Board size?: "))
+    for i in range(size):
+        board_in.append(["0"] * size)
 
 
 def print_board(board_in):
@@ -13,15 +23,10 @@ def print_board(board_in):
         print(" ".join(row))
 
 
-def random_cord(board_in):
-    return randint(0, len(board_in) - 1)
-
-
 def game_begin(board_in):
-    ship_x = randint(0, len(board_in) - 1)
-    ship_y = randint(0, len(board_in) - 1)
+    shippy = Ship(randint(0, len(board_in) - 1), randint(0, len(board_in) - 1))
 
-    print("Let's begin!", ship_x, ship_y)
+    print("Let's begin!", shippy.x, shippy.y)
     attempts = int(input("How many attempts do you want?: "))
 
     count = 0
@@ -30,20 +35,22 @@ def game_begin(board_in):
         print ("Your ", count + 1, " attempt:")
         guess_x = int(input("guess x: "))
         guess_y = int(input("guess y: "))
-        if (guess_x == ship_x) and (guess_y == ship_y):
-            print ("you got it!")
+        if (guess_x == shippy.x) and (guess_y == shippy.y) and not(board_in[guess_x][guess_y] == "X"):
+            print("you got it!")
             board_in[guess_x][guess_y] = "X"
             print_board(board)
             break
+        elif (guess_x < len(board_in)) and (guess_y < len(board_in)):
+                board_in[guess_x][guess_y] = "x"
+                print("nope!")
+                print_board(board)
         else:
-            board_in[guess_x][guess_y] = "x"
-            print("nope!")
-            print_board(board)
+            print("Out of range!")
         count = count + 1
 
 
 create_board(board)
 game_begin(board)
-print('banana')
+
 
 
