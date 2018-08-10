@@ -1,6 +1,6 @@
 from random import randint
-from Ship import Ship
-from Board import Board
+from ship import Ship
+from board import Board
 
 
 def game_begin(board_in):
@@ -32,7 +32,6 @@ bordy = Board(int(input("Board size?: ")))
 attempts = int(input("How many attempts do you want?: "))
 
 game_begin(bordy.graph)
-
 
 
 
