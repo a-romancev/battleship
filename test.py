@@ -1,27 +1,12 @@
 from random import randint
+from ship import Ship
 
 
+shippy = Ship(randint(0, len(board_in) - 1), randint(0, len(board_in) - 1))
+shippy_2 = Ship(randint(0, len(board_in) - 1), randint(0, len(board_in) - 1))
 
-class Board(object):
-    def __init__(self, size):
-        self.size = size
-        self.graph = [["0"] * self.size for i in range(self.size)]
+while shippy != shippy_2:
+    shippy = Ship(randint(0, len(board_in) - 1), randint(0, len(board_in) - 1))
+    shippy_2 = Ship(randint(0, len(board_in) - 1), randint(0, len(board_in) - 1))
 
-    def show(self):
-        for row in self.graph:
-            print(" ".join(row))
-
-
-
-class Ship(object):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-
-bordy = Board(int(input("Board size?: ")))
-bordy.graph[1][2] = "X"
-bordy.show()
-
-
-
+print(shippy.x, shippy.y, shippy_2.x, shippy_2.y)
