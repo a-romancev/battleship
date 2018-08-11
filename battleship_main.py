@@ -9,11 +9,11 @@ def game_begin(board_in):
 
     print("Let's begin!", shippy.x, shippy.y, shippy_2.x, shippy_2.y)
 
-    count = 0
+    count = 1
     win_count =0
 
     while count < attempts:
-        print("Your ", count + 1, " attempt:")
+        print("Your ", count, " attempt:")
         guess_x = int(input("guess x: "))
         guess_y = int(input("guess y: "))
         if (guess_x == shippy.x) and (guess_y == shippy.y) and not (board_in[guess_x][guess_y] == "X"):
@@ -21,10 +21,11 @@ def game_begin(board_in):
             board_in[guess_x][guess_y] = "X"
             bordy.show()
             win_count += 1
-            if win_count == 2:
+            if (win_count == 2) or (ships_count == 1):
                 print("You win!")
                 break
-        elif (guess_x == shippy_2.x) and (guess_y == shippy_2.y) and not (board_in[guess_x][guess_y] == "X"):
+        elif (ships_count == 2) and (guess_x == shippy_2.x) and (guess_y == shippy_2.y) \
+                and not (board_in[guess_x][guess_y] == "X"):
             print("you got it!")
             board_in[guess_x][guess_y] = "X"
             bordy.show()
@@ -36,15 +37,27 @@ def game_begin(board_in):
             board_in[guess_x][guess_y] = "x"
             print("nope!")
             bordy.show()
+            if count +1 == attempts:
+                print("You loose!")
+                break
         else:
             print("Out of range!")
+            if count + 1 == attempts:
+                print("You loose!")
+                break
         count = count + 1
 
 
-bordy = Board(int(input("Board size?: ")))
-attempts = int(input("How many attempts do you want?: "))
 
-game_begin(bordy.graph)
+bordy = Board(int(input("Board size?: ")))
+attempts = int(input("How many attempts do you want?: ")) + 1
+ships_count = int(input("How many ships do you want?(1,2): "))
+if (attempts < 2) and (ships_count > 1):
+    print("You Can't have 1 attempt then there is 2 ships")
+elif ships_count > 2:
+     print("Can't have more than 2 ships")
+else: game_begin(bordy.graph)
+
 
 
 
