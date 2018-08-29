@@ -23,8 +23,9 @@ class Board:
             empty_cells_ships.remove(point)
 
     def get_field(self):
-        field_str = ""
+        field_str = "".join("({:<2})".format(i) for i in range(self.size + 1)) + "\n"
         for x in range(self.size):
+            field_str += "".join("({:<2})".format(x + 1))
             for y in range(self.size):
                 if self.ships[x][y] and self.hits[x][y]:
                     field_str += "[SX]"

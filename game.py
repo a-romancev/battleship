@@ -8,6 +8,7 @@ class Game:
         self.target_board = Board(size, ships)
         self.size = size
         self.ships = ships
+        self.attempts = 1
 
     def print_boards(self):
         os.system('clear')
@@ -19,6 +20,7 @@ class Game:
     def start(self):
         self.print_boards()
         while True:
+            print("Attempt:", self.attempts, ".")
             try:
                 x, y = [(int(c) - 1) for c in input("Guess row and column: ").split()]
                 self.target_board.shoot(x, y)
@@ -33,6 +35,7 @@ class Game:
 
             self.my_board.shoot_random()
             self.print_boards()
+            self.attempts += 1
             if not self.my_board.has_alive:
                 print("You loose!FOOOL.")
                 return
