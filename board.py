@@ -23,18 +23,18 @@ class Board:
             empty_cells_ships.remove(point)
 
     def get_field(self):
-        field_str = "".join("({:<2})".format(i) for i in range(self.size + 1)) + "\n"
+        field_str = "".join((Color.Yellow + "({:<2})" + Color.END).format(i) for i in range(self.size + 1)) + "\n"
         for x in range(self.size):
-            field_str += "".join("({:<2})".format(x + 1))
+            field_str += "".join((Color.Yellow + "({:<2})" + Color.END).format(x + 1))
             for y in range(self.size):
                 if self.ships[x][y] and self.hits[x][y]:
-                    field_str += "[SX]"
+                    field_str += Color.Red + "[SX]" + Color.END
                 elif self.hits[x][y]:
-                    field_str += "[X ]"
+                    field_str += Color.Blue + "[ X]" + Color.END
                 elif self.ships[x][y]:
-                    field_str += "[S ]" if self.show_ships else "[  ]"
+                    field_str += "[ S]" if self.show_ships else Color.Grey + "[  ]" + Color.END
                 else:
-                    field_str += "[  ]"
+                    field_str += Color.Grey + "[  ]" + Color.END
 
             field_str += "\n"
 
@@ -70,3 +70,18 @@ class Board:
                     return True
 
         return False
+
+
+class Color:
+    Red = '\033[91m'
+    Green = '\033[92m'
+    Yellow = '\033[93m'
+    Blue = '\033[94m'
+    Magenta = '\033[95m'
+    Cyan = '\033[96m'
+    White = '\033[97m'
+    Grey = '\033[90m'
+    BOLD = '\033[1m'
+    ITALIC = '\033[3m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'

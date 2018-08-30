@@ -1,4 +1,4 @@
-from board import Board, CellNotEmptyError
+from board import Board, CellNotEmptyError, Color
 import os
 
 
@@ -26,19 +26,19 @@ class Game:
                 self.target_board.shoot(x, y)
 
             except CellNotEmptyError:
-                print("You can't shoot same cords.")
+                print(Color.Red + "You can't shoot same cords." + Color.END)
                 continue
 
             except (ValueError, IndexError):
-                print("Wrong column or row.")
+                print(Color.Red + "Wrong column or row." + Color.END)
                 continue
 
             self.my_board.shoot_random()
             self.print_boards()
             self.attempts += 1
             if not self.my_board.has_alive:
-                print("You loose!FOOOL.")
+                print(Color.Red + "You loose!FOOOL." + Color.END)
                 return
             if not self.target_board.has_alive:
-                print("You won!")
+                print(Color.Green + "You won!" + Color.END)
                 return
