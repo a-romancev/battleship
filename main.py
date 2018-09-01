@@ -1,4 +1,4 @@
-
+#! /usr/bin/python3
 from game import Game
 
 size = 0

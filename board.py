@@ -9,7 +9,6 @@ class Board:
     def __init__(self, size, ships_count, show_ships=False):
         self.size = size
         self.ships_count = ships_count
-        self.show_ships = show_ships
         self.ships = [[False] * self.size for i in range(self.size)]
         self.hits = [[False] * self.size for i in range(self.size)]
         self.empty_cells = self.create_empty_set()
@@ -22,7 +21,7 @@ class Board:
             self.ships[point[0]][point[1]] = True
             empty_cells_ships.remove(point)
 
-    def get_field(self):
+    def get_field(self, show_ships):
         field_str = "".join((Color.Yellow + "({:<2})" + Color.END).format(i) for i in range(self.size + 1)) + "\n"
         for x in range(self.size):
             field_str += "".join((Color.Yellow + "({:<2})" + Color.END).format(x + 1))
@@ -32,7 +31,7 @@ class Board:
                 elif self.hits[x][y]:
                     field_str += Color.Blue + "[ X]" + Color.END
                 elif self.ships[x][y]:
-                    field_str += "[ S]" if self.show_ships else Color.Grey + "[  ]" + Color.END
+                    field_str += "[ S]" if show_ships else Color.Grey + "[  ]" + Color.END
                 else:
                     field_str += Color.Grey + "[  ]" + Color.END
 

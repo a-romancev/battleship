@@ -1,44 +1,25 @@
-from board import Board, CellNotEmptyError, Color
-import os
+from board import Board
+from controllers import ConsoleController, BotController
 
 
 class Game:
     def __init__(self, size, ships):
-        self.my_board = Board(size, ships, show_ships=True)
-        self.target_board = Board(size, ships)
-        self.size = size
-        self.ships = ships
-        self.attempts = 1
-
-    def print_boards(self):
-        os.system('clear')
-        print("Your board:")
-        print(self.my_board.get_field())
-        print("Enemy board:")
-        print(self.target_board.get_field())
+        player1_board = Board(size, ships)
+        player2_board = Board(size, ships)
+        self.player1 = ConsoleController(my_board=player1_board, target_board=player2_board, name="Player1")
+        self.player2 = BotController(my_board=player2_board, target_board=player1_board, name="Player2")
 
     def start(self):
-        self.print_boards()
         while True:
-            print("Attempt:", self.attempts, ".")
-            try:
-                x, y = [(int(c) - 1) for c in input("Guess row and column: ").split()]
-                self.target_board.shoot(x, y)
+            self.player1.turn()
+            self.player2.turn()
 
-            except CellNotEmptyError:
-                print(Color.Red + "You can't shoot same cords." + Color.END)
-                continue
-
-            except (ValueError, IndexError):
-                print(Color.Red + "Wrong column or row." + Color.END)
-                continue
-
-            self.my_board.shoot_random()
-            self.print_boards()
-            self.attempts += 1
-            if not self.my_board.has_alive:
-                print(Color.Red + "You loose!FOOOL." + Color.END)
+            if not self.player1.target_board.has_alive:
+                self.player1.win()
+                self.player2.loose()
                 return
-            if not self.target_board.has_alive:
-                print(Color.Green + "You won!" + Color.END)
+
+            if not self.player2.target_board.has_alive:
+                self.player1.loose()
+                self.player2.win()
                 return
