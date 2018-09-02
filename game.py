@@ -3,9 +3,9 @@ from controllers import ConsoleController, BotController
 
 
 class Game:
-    def __init__(self, size, ships):
-        player1_board = Board(size, ships)
-        player2_board = Board(size, ships)
+    def __init__(self):
+        player1_board = Board()
+        player2_board = Board()
         self.player1 = ConsoleController(my_board=player1_board, target_board=player2_board, name="Player1")
         self.player2 = BotController(my_board=player2_board, target_board=player1_board, name="Player2")
 
