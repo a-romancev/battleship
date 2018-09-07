@@ -1,6 +1,7 @@
-from board import CellNotEmptyError,  Color
+from board import CellNotEmptyError
 from controllers.base import BaseController
 import os
+from color import Color
 
 
 class ConsoleController(BaseController):
