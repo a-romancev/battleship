@@ -1,40 +1,27 @@
-from board import Board, CellNotEmptyError
-from random import randint
-import os
+from board import Board
+from controllers import ConsoleController, BotController, NetworkController
 
 
 class Game:
-    def __init__(self):
-        self.my_board = Board(5, 3, show_ships=True)
-        self.target_board = Board(5, 3)
-
-    def print_boards(self):
-        os.system('clear')
-        print("Your board:")
-        print(self.my_board.get_field())
-        print("Enemy board:")
-        print(self.target_board.get_field())
+    def __init__(self, is_server):
+        self.player1 = ConsoleController(board=Board(), name="Player1")
+        self.player2 = NetworkController(board=Board(), name="Player2", is_server=is_server)
+        if is_server:
+            self.player1, self.player2 = self.player2, self.player1
+        self.player1.opponent = self.player2
+        self.player2.opponent = self.player1
 
     def start(self):
-        self.print_boards()
         while True:
-            try:
-                x, y = [int(c) for c in input("Guess x, y: ").split()]
-                self.target_board.shoot(x, y)
+            self.player1.turn()
+            self.player2.turn()
 
-            except CellNotEmptyError:
-                print("You can't shoot same cords")
-                continue
-
-            except (ValueError, IndexError):
-                print("Wrong x/y")
-                continue
-
-            self.my_board.shoot_random()
-            self.print_boards()
-            if not self.my_board.has_alive:
-                print("You loose!FOOOL")
+            if not self.player2.board.has_alive:
+                self.player1.win()
+                self.player2.loose()
                 return
-            if not self.target_board.has_alive:
-                print("You won!")
+
+            if not self.player1.board.has_alive:
+                self.player1.loose()
+                self.player2.win()
                 return
