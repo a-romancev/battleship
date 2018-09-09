@@ -20,7 +20,7 @@ class Connector:
 
     def receive_answer(self):
         answ = self.opponent.recv(1)
-        return bool(answ)
+        return bool(answ[0])
 
     def receive_guess(self):
         guess = self.opponent.recv(2)

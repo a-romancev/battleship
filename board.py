@@ -1,4 +1,6 @@
 from color import Color
+from collections import namedtuple
+from random import choice
 
 
 class CellNotEmptyError(ValueError):
@@ -11,17 +13,17 @@ ShipType = namedtuple('ShipType', 'size amount')
 class Board:
     SIZE = 10
     SHIPS = (
-        ShipType(4, 1),
-        ShipType(3, 2),
-        ShipType(2, 3),
-        ShipType(1, 4),
+        ShipType(4, 0),
+        ShipType(3, 0),
+        ShipType(2, 0),
+        ShipType(1, 2),
     )
+    TOTAL_SHIP_CELLS = 2
 
     def __init__(self):
         self.ships = [[False] * self.SIZE for _ in range(self.SIZE)]
         self.hits = [[False] * self.SIZE for _ in range(self.SIZE)]
         self.empty_hit_cells = self.create_empty_set()
-        ShipGenerator(self).generate()
 
     def get_field(self, show_ships):
         field_str = "".join((Color.Yellow + "({:<2})" + Color.END).format(i) for i in range(self.SIZE + 1)) + "\n"
@@ -51,6 +53,11 @@ class Board:
         self.empty_hit_cells.remove((x, y))
         self.hits[x][y] = True
 
+        if self.ships[x][y]:
+            return True
+        else:
+            return False
+
     def create_empty_set(self):
         result = set()
         for x in range(self.SIZE):
@@ -58,17 +65,16 @@ class Board:
                 result.add((x, y))
         return result
 
-    def shoot_random(self):
+    def give_random(self):
         point = choice(tuple(self.empty_hit_cells))
-        self.hits[point[0]][point[1]] = True
-        self.empty_hit_cells.remove(point)
+        return point
 
     @property
     def has_alive(self):
+        hit_count = 0
         for x in range(self.SIZE):
             for y in range(self.SIZE):
-                if self.ships[x][y] and not self.hits[x][y]:
-                    return True
+                if self.hits[x][y]:
+                    hit_count += 1
 
-        return False
-
+        return hit_count < self.TOTAL_SHIP_CELLS
