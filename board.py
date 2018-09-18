@@ -74,7 +74,6 @@ class Board:
         hit_count = 0
         for x in range(self.SIZE):
             for y in range(self.SIZE):
-                if self.hits[x][y]:
+                if self.ships[x][y] and self.hits[x][y]:
                     hit_count += 1
-
         return hit_count < self.TOTAL_SHIP_CELLS
