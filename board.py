@@ -14,11 +14,11 @@ class Board:
     SIZE = 10
     SHIPS = (
         ShipType(4, 0),
-        ShipType(3, 0),
-        ShipType(2, 0),
+        ShipType(3, 1),
+        ShipType(2, 1),
         ShipType(1, 2),
     )
-    TOTAL_SHIP_CELLS = 2
+    TOTAL_SHIP_CELLS = 4
 
     def __init__(self):
         self.ships = [[False] * self.SIZE for _ in range(self.SIZE)]
@@ -31,7 +31,10 @@ class Board:
             field_str += "".join((Color.Yellow + "({:<2})" + Color.END).format(x + 1))
             for y in range(self.SIZE):
                 if self.ships[x][y] and self.hits[x][y]:
-                    field_str += Color.Red + "[SX]" + Color.END
+                    if self.ships[x][y].is_dead() and self.hits[x][y]:
+                        field_str += Color.Red + "[SX]" + Color.END
+                    else:
+                        field_str += Color.Magenta + "[SX]" + Color.END
                 elif self.hits[x][y]:
                     field_str += Color.Blue + "[ X]" + Color.END
                 elif self.ships[x][y]:
@@ -54,6 +57,7 @@ class Board:
         self.hits[x][y] = True
 
         if self.ships[x][y]:
+            self.ships[x][y].take_hit()
             return True
         else:
             return False

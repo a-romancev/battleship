@@ -28,7 +28,7 @@ class ShipGenerator:
 
     def save_ship(self, ship):
         for x, y in ship.iter_cells():
-            self.board.ships[x][y] = True
+            self.board.ships[x][y] = ship
             for dx in range(-1, 2):
                 for dy in range(-1, 2):
                     try:
