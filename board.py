@@ -1,4 +1,4 @@
-from color import Color
+from color import ColoredText
 from collections import namedtuple
 from random import choice
 
@@ -26,23 +26,23 @@ class Board:
         self.empty_hit_cells = self.create_empty_set()
 
     def get_field(self, show_ships):
-        field_str = "".join((Color.Yellow + "({:<2})" + Color.END).format(i) for i in range(self.SIZE + 1)) + "\n"
+        field_str = ColoredText().yellow("".join("({:<2})".format(i) for i in range(self.SIZE + 1)) + "\n")
         for x in range(self.SIZE):
-            field_str += "".join((Color.Yellow + "({:<2})" + Color.END).format(x + 1))
+            field_str.yellow("({:<2})".format(x + 1))
             for y in range(self.SIZE):
                 if self.ships[x][y] and self.hits[x][y]:
                     if self.ships[x][y].is_dead():
-                        field_str += Color.Red + "[SX]" + Color.END
+                        field_str.red("[SX]")
                     else:
-                        field_str += Color.Magenta + "[SX]" + Color.END
+                        field_str.magenta("[SX]")
                 elif self.hits[x][y]:
-                    field_str += Color.Blue + "[ X]" + Color.END
+                    field_str.blue("[ X]")
                 elif self.ships[x][y]:
-                    field_str += "[ S]" if show_ships else Color.Grey + "[  ]" + Color.END
+                    field_str.default("[ S]") if show_ships else field_str.grey("[  ]")
                 else:
-                    field_str += Color.Grey + "[  ]" + Color.END
+                    field_str.grey("[  ]")
 
-            field_str += "\n"
+            field_str.default("\n")
 
         return field_str
 
