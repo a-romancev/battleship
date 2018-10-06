@@ -1,7 +1,7 @@
 from board import CellNotEmptyError
 from controllers.base import BaseController
 import os
-from color import Color
+from color import ColoredText
 from ship_generator import ShipGenerator
 
 
@@ -27,11 +27,11 @@ class ConsoleController(BaseController):
             self.opponent.receive_guess(x, y)
 
         except CellNotEmptyError:
-            print(Color.Red + "You can't shoot same cords." + Color.END)
+            print(ColoredText().red("You can't shoot same cords."))
             self.turn()
 
         except (ValueError, IndexError):
-            print(Color.Red + "Wrong column or row." + Color.END)
+            print(ColoredText().red("Wrong column or row."))
             self.turn()
 
         else:
@@ -44,9 +44,7 @@ class ConsoleController(BaseController):
         return is_hit
 
     def win(self):
-        # self.print_boards()
-        print(Color.Green + "{} has won!".format(self.name) + Color.END)
+        print(ColoredText().green("{} has won!".format(self.name)))
 
     def loose(self):
-        # self.print_boards()
-        print(Color.Red + "{} has lost!".format(self.name) + Color.END)
+        print(ColoredText().red("{} has lost!".format(self.name)))
