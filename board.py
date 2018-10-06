@@ -13,15 +13,15 @@ ShipType = namedtuple('ShipType', 'size amount')
 class Board:
     SIZE = 10
     SHIPS = (
-        ShipType(4, 0),
-        ShipType(3, 1),
-        ShipType(2, 1),
-        ShipType(1, 2),
+        ShipType(4, 1),
+        ShipType(3, 2),
+        ShipType(2, 3),
+        ShipType(1, 4),
     )
     TOTAL_SHIP_CELLS = 4
 
     def __init__(self):
-        self.ships = [[False] * self.SIZE for _ in range(self.SIZE)]
+        self.ships = [[None] * self.SIZE for _ in range(self.SIZE)]
         self.hits = [[False] * self.SIZE for _ in range(self.SIZE)]
         self.empty_hit_cells = self.create_empty_set()
 
@@ -31,7 +31,7 @@ class Board:
             field_str += "".join((Color.Yellow + "({:<2})" + Color.END).format(x + 1))
             for y in range(self.SIZE):
                 if self.ships[x][y] and self.hits[x][y]:
-                    if self.ships[x][y].is_dead() and self.hits[x][y]:
+                    if self.ships[x][y].is_dead():
                         field_str += Color.Red + "[SX]" + Color.END
                     else:
                         field_str += Color.Magenta + "[SX]" + Color.END
