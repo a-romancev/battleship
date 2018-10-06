@@ -1,5 +1,5 @@
 from board import Board
-from controllers import ConsoleController, BotController, NetworkController
+from controllers import ConsoleController, NetworkController
 
 
 class Game:
@@ -13,6 +13,7 @@ class Game:
 
     def start(self):
         while True:
+            
             self.player1.turn()
             self.player2.turn()
 

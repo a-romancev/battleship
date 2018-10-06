@@ -44,9 +44,9 @@ class ConsoleController(BaseController):
         return is_hit
 
     def win(self):
-        self.print_boards()
+        # self.print_boards()
         print(Color.Green + "{} has won!".format(self.name) + Color.END)
 
     def loose(self):
-        self.print_boards()
+        # self.print_boards()
         print(Color.Red + "{} has lost!".format(self.name) + Color.END)
